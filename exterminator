@@ -21,8 +21,8 @@ from efl.elementary.flip import Flip, ELM_FLIP_CUBE_DOWN
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import ecore
 
-from elmextensions import aboutwindow, InstanceError
-from elmextensions import sortedlist
+from elmextensions import AboutWindow, InstanceError
+from elmextensions import SortedList
 
 # pylint: disable=import-error
 import psutil
@@ -151,7 +151,7 @@ class MainWindow(StandardWindow):
         self.task_manager = TaskManager(self)
         self.task_manager.show()
 
-        self.resize_object_add(self.taskManager)
+        self.resize_object_add(self.task_manager)
 
     def quit_all(self):
         ''' method to close task manager '''
@@ -217,7 +217,7 @@ class TaskManager(Box):
         titles = [("PID", True), ("Process Name", True), ("CPU", True),
                   ("Memory", True), ("User", True)]
 
-        self.slist = slist = sortedlist(self, titles=titles, size_hint_weight=EXPAND_BOTH,
+        self.slist = slist = SortedList(self, titles=titles, size_hint_weight=EXPAND_BOTH,
                                         size_hint_align=FILL_BOTH, homogeneous=True)
 
         slist.show()
@@ -233,7 +233,7 @@ class TaskManager(Box):
 
         about = Button(self.win, size_hint_align=(1.0, 0.0))
         about.content = icon
-        about.callback_clicked_add(self.showAbout)
+        about.callback_clicked_add(self.show_about)
         about.show()
 
         tbox = Box(win)
@@ -278,7 +278,7 @@ class TaskManager(Box):
     def update(self):
         ''' refresh data '''
         if not self.getting_data:
-            self.threaded_function.run(self.getPsUtilData)
+            self.threaded_function.run(self.get_ps_util_data)
 
         return 1
 
