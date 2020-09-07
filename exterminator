@@ -21,8 +21,8 @@ from efl.elementary.flip import Flip, ELM_FLIP_CUBE_DOWN
 from efl.evas import EVAS_HINT_EXPAND, EVAS_HINT_FILL
 from efl import ecore
 
-from elmextensions import AboutWindow, InstanceError
-from elmextensions import SortedList
+from elmextensions import aboutwindow, InstanceError
+from elmextensions import sortedlist
 
 # pylint: disable=import-error
 import psutil
@@ -100,10 +100,10 @@ class ThreadedFunction(object):
         self.done_cb = doneCB
 
         # add a timer to check the data returned by the worker thread
-        self._timer = ecore.Timer(0.1, self.checkReplyQueue)
+        self._timer = ecore.Timer(0.1, self.check_reply_queue)
 
         # start the working thread
-        threading.Thread(target=self.threadFunc).start()
+        threading.Thread(target=self.thread_func).start()
 
     def run(self, action):
         ''' run method '''
@@ -217,7 +217,7 @@ class TaskManager(Box):
         titles = [("PID", True), ("Process Name", True), ("CPU", True),
                   ("Memory", True), ("User", True)]
 
-        self.slist = slist = SortedList(self, titles=titles, size_hint_weight=EXPAND_BOTH,
+        self.slist = slist = sortedlist(self, titles=titles, size_hint_weight=EXPAND_BOTH,
                                         size_hint_align=FILL_BOTH, homogeneous=True)
 
         slist.show()
@@ -372,7 +372,7 @@ class TaskManager(Box):
     def show_about(self):
         ''' about window '''
         try:
-            AboutWindow(self, title="Exterminator", standardicon="utilities-system-monitor", \
+            aboutwindow(self, title="Exterminator", standardicon="utilities-system-monitor", \
                         version=__version__, authors=AUTHORS, \
                         licen=LICENSE, webaddress=__github__, \
                         info=INFO)
